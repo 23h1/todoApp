@@ -13,14 +13,11 @@ function App(){
             isCompleted: false,
         }
     ]);
-    const [value, setValue] = React.useState('');
-
-    const handleSubmit = e=> {
-        e.preventDefault();
-        if (!value) return;
-        const newTodos = [...todos, {text:value, isCompleted:false}];
+    
+    // access the local state and update the list
+    const addTodo = text => {        
+        const newTodos = [...todos, {text:text, isCompleted:false}];
         setTodos(newTodos);
-        setValue('');
     }
 
     const removeTodo = e => {
@@ -29,22 +26,15 @@ function App(){
         temp.splice(index,1);
         setTodos(temp);
     }
-    return (<>
-        {todos.map((todo,i) => 
+    return (
+    <>
+        {todos.map((todo,i) => (
             <div className="todo" key={i} id={i} 
-                onClick={removeTodo}>{todo.text}</div>)} 
-            
-            <form onSubmit={handleSubmit}>
-                <input
-                    type = "text"
-                    className="input"
-                    value={value}
-                    placeholder="Add To list"
-                    onChange={e => setValue(e.target.value)}
-                />
-            </form>
-            
-            </>);
+                onClick={removeTodo}>{todo.text}</div>))}
+
+            <TodoForm addTodo={addTodo}/>
+    </>);
+    
 }
 
 ReactDOM.render(
